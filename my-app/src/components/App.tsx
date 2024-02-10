@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Navbar from "./Navbar";
 import EventsPage from './EventsPage';
@@ -28,14 +28,22 @@ export type TEvent = {
 export default function App() {
 
 	var [ result, setResult ] = useState< TEvent[] >([]);
+	var [ resultBackUp, setResultBackUp ] = useState< TEvent[] >([]);
 
-	axios.get("https://api.hackthenorth.com/v3/events")
-		.then((res) => {
-			setResult(sortingAlg(res.data, "date ascending")); //"date ascending"
-		})
-		.catch((err) => {
-			console.log(err);
-		});
+	useEffect(() => {
+		axios.get("https://api.hackthenorth.com/v3/events")
+			.then((res) => {
+				setResultBackUp(res.data);
+				setResult(sortingAlg(res.data, 1));
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}, []);
+
+	function updateEventList( backUp: TEvent[], sortBy: Number ) {
+		setResult(sortingAlg(backUp, sortBy));
+	}
 	
 	return (
 		<div>
@@ -43,7 +51,7 @@ export default function App() {
 				<Navbar />
 				<Routes>
 					<Route path="/" element={<div><h1>Hackathon Home Page</h1></div>}></Route>
-					<Route path="/events" element={<EventsPage eventList={result} />}></Route>
+					<Route path="/events" element={<EventsPage eventList={result} updateEventList={updateEventList} resultBackUp={resultBackUp} />}></Route>
 					<Route path="/login" element={<div><h1>Login</h1></div>}></Route>
 				</Routes>
 			</Container>

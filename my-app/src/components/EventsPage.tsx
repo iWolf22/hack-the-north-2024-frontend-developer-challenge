@@ -24,11 +24,7 @@ export type TEvent = {
     related_events: number[]; // a list ids corresponding to related events
 };
 
-export default function EventsPage( props: { eventList: TEvent[] } ) {
-
-	function handleClickEvents(res: any) {
-		console.log(res);
-	}
+export default function EventsPage( props: { eventList: TEvent[], updateEventList: Function, resultBackUp: TEvent[] } ) {
 
 	return (
 		<div>
@@ -36,7 +32,7 @@ export default function EventsPage( props: { eventList: TEvent[] } ) {
 			<div style={{display: "flex", gap: "10px"}}>
 				<TextField fullWidth label="Events Search" />
 				<Button variant="contained">Search</Button>
-				<EventsDropDown callBackFunc={handleClickEvents} />
+				<EventsDropDown updateEventList={props.updateEventList} resultBackUp={props.resultBackUp} />
 			</div>
 			<Grid container spacing={{ xs: 2, md: 3 }} columns={{ sm: 4, md: 8, lg: 12 }}>
 				{props.eventList.map((event, index) => {

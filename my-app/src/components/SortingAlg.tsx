@@ -17,11 +17,13 @@ export type TEvent = {
     related_events: number[]; // a list ids corresponding to related events
 };
 
-export default function sortingAlg( inputList: TEvent[], sortBy: String ) {
+export default function sortingAlg( inputList: TEvent[], sortBy: Number ) {
 
     var new_list: TEvent[] = [];
 
-    if (sortBy === "date ascending") {
+    console.log(sortBy);
+    if (sortBy === 1 || sortBy === 2) {
+
         while (inputList.length > 0) {
             var largest_val = 0;
             var largest_index = 0;
@@ -35,5 +37,13 @@ export default function sortingAlg( inputList: TEvent[], sortBy: String ) {
             inputList.splice(largest_index, 1);
         }
     }
-    return new_list.reverse();
+
+    console.log(new_list);
+    if (sortBy === 1) {
+        console.log("normal");
+        return new_list;
+    } else {
+        console.log("reverse");
+        return new_list.reverse();
+    }
 }

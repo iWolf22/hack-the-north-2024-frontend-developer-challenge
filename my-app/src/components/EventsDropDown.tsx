@@ -9,6 +9,25 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
+// The information for an event will look like so
+// Each event will belong to one of the following types
+export type TEvent = {
+    id: number;
+    name: string;
+    event_type: "workshop" | "activity" | "tech_talk";
+    permission?: "public" | "private";
+
+    start_time: number; // unix timestamp (ms)
+    end_time: number; // unix timestamp (ms)
+
+    description?: string; // a paragraph describing the event
+    speakers: { name: string }[]; // a list of speakers for the event
+
+    public_url?: string; // a url to display for the general public
+    private_url: string; // a url to display for hackers
+    related_events: number[]; // a list ids corresponding to related events
+};
+
 const StyledMenu = styled((props: MenuProps) => (
 	<Menu
 		elevation={0}
@@ -50,7 +69,7 @@ const StyledMenu = styled((props: MenuProps) => (
 	},
 }));
 
-export default function EventsDropDown( props: { callBackFunc: Function } ) {
+export default function EventsDropDown( props: { updateEventList: Function, resultBackUp: TEvent[] } ) {
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
@@ -59,7 +78,7 @@ export default function EventsDropDown( props: { callBackFunc: Function } ) {
     };
     const handleClose = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(null);
-        props.callBackFunc((event.target as HTMLInputElement).value);
+        props.updateEventList((event.target as HTMLInputElement).value, props.resultBackUp);
 	};
 
 	return (
@@ -85,22 +104,22 @@ export default function EventsDropDown( props: { callBackFunc: Function } ) {
             open={open}
             onClose={handleClose}
         >
-            <MenuItem onClick={handleClose} disableRipple value="1">
+        <MenuItem onClick={handleClose} value="1">
             <EditIcon />
             Edit
-            </MenuItem>
-            <MenuItem onClick={handleClose} disableRipple value="2">
+        </MenuItem>
+        <MenuItem onClick={handleClose} value="2">
             <FileCopyIcon />
             Duplicate
-            </MenuItem>
-            <MenuItem onClick={handleClose} disableRipple value="3">
+        </MenuItem>
+        <MenuItem onClick={handleClose} value="3">
             <ArchiveIcon />
             Archive
-            </MenuItem>
-            <MenuItem onClick={handleClose} disableRipple value="4">
+        </MenuItem>
+        <MenuItem onClick={handleClose} value="4">
             <MoreHorizIcon />
             More
-            </MenuItem>
+        </MenuItem>
         </StyledMenu>
         </div>
 	);
