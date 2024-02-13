@@ -21,7 +21,6 @@ export default function sortingAlg( inputList: TEvent[], sortBy: Number ) {
 
     var new_list: TEvent[] = [];
 
-
     if (sortBy === 1 || sortBy === 2) {
         while (inputList.length > 0) {
             var largest_val1 = inputList[0].start_time;

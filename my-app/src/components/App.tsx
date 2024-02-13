@@ -30,6 +30,7 @@ export default function App() {
 	var [ result, setResult ] = useState< TEvent[] >([]);
 	var [ sorting, setSorting ] = useState("Sort: Date Ascending");
 	var [ filter, setFilter ] = useState("Filter: All");
+	var [ search, setSearch ] = useState("");
 
 	useEffect(() => {
 		axios.get("https://api.hackthenorth.com/v3/events")
@@ -43,13 +44,17 @@ export default function App() {
 
 	var stringList = ['Sort: Date Ascending', 'Sort: Date Descending', 'Sort: Alphabetical A-Z', 'Sort: Alphabetical Z-A', 'Filter: All', 'Filter: Public', 'Filter: Private', 'Filter: Tech Talk', 'Filter: Workshop', 'Filter: Activity'];
 	function updateEventList( sortBy: number ) {
-		console.log(stringList[sortBy - 1]);
 		if (sortBy <= 4) {
 			setSorting(stringList[sortBy - 1]);
 			setResult(sortingAlg(result, sortBy));
 		} else {
 			setFilter(stringList[sortBy - 1]);
 		}
+	}
+
+	function updateSearch( newValue: string ) {
+		setSearch(newValue);
+		console.log(search);
 	}
 	
 	return (
@@ -63,6 +68,8 @@ export default function App() {
 							eventList={result}
 							updateEventList={updateEventList}
 							sorting={sorting}
+							search={search}
+							updateSearch={updateSearch}
 							filter={filter} />
 					}></Route>
 					<Route path="/login" element={<div><h1>Login</h1></div>}></Route>
