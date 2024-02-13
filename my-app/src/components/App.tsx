@@ -28,12 +28,12 @@ export type TEvent = {
 export default function App() {
 
 	var [ result, setResult ] = useState< TEvent[] >([]);
-	var [ resultBackUp, setResultBackUp ] = useState< TEvent[] >([]);
+	var [ sorting, setSorting ] = useState("Sort: Date Ascending");
+	var [ filter, setFilter ] = useState("Filter: All");
 
 	useEffect(() => {
 		axios.get("https://api.hackthenorth.com/v3/events")
 			.then((res) => {
-				setResultBackUp(res.data);
 				setResult(sortingAlg(res.data, 1));
 			})
 			.catch((err) => {
@@ -41,8 +41,15 @@ export default function App() {
 			});
 	}, []);
 
-	function updateEventList( backUp: TEvent[], sortBy: Number ) {
-		setResult(sortingAlg(backUp, sortBy));
+	var stringList = ['Sort: Date Ascending', 'Sort: Date Descending', 'Sort: Alphabetical A-Z', 'Sort: Alphabetical Z-A', 'Filter: All', 'Filter: Public', 'Filter: Private', 'Filter: Tech Talk', 'Filter: Workshop', 'Filter: Activity'];
+	function updateEventList( sortBy: number ) {
+		console.log(stringList[sortBy - 1]);
+		if (sortBy <= 4) {
+			setSorting(stringList[sortBy - 1]);
+			setResult(sortingAlg(result, sortBy));
+		} else {
+			setFilter(stringList[sortBy - 1]);
+		}
 	}
 	
 	return (
@@ -51,7 +58,13 @@ export default function App() {
 				<Navbar />
 				<Routes>
 					<Route path="/" element={<div><h1>Hackathon Home Page</h1></div>}></Route>
-					<Route path="/events" element={<EventsPage eventList={result} updateEventList={updateEventList} resultBackUp={resultBackUp} />}></Route>
+					<Route path="/events" element={
+						<EventsPage
+							eventList={result}
+							updateEventList={updateEventList}
+							sorting={sorting}
+							filter={filter} />
+					}></Route>
 					<Route path="/login" element={<div><h1>Login</h1></div>}></Route>
 				</Routes>
 			</Container>

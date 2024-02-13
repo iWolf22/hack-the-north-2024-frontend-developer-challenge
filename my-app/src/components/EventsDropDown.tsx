@@ -3,30 +3,16 @@ import Button from '@mui/material/Button';
 import { styled, alpha } from '@mui/material/styles';
 import Menu, { MenuProps } from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import EditIcon from '@mui/icons-material/Edit';
-import ArchiveIcon from '@mui/icons-material/Archive';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import Divider from '@mui/material/Divider';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-
-// The information for an event will look like so
-// Each event will belong to one of the following types
-export type TEvent = {
-    id: number;
-    name: string;
-    event_type: "workshop" | "activity" | "tech_talk";
-    permission?: "public" | "private";
-
-    start_time: number; // unix timestamp (ms)
-    end_time: number; // unix timestamp (ms)
-
-    description?: string; // a paragraph describing the event
-    speakers: { name: string }[]; // a list of speakers for the event
-
-    public_url?: string; // a url to display for the general public
-    private_url: string; // a url to display for hackers
-    related_events: number[]; // a list ids corresponding to related events
-};
+import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import BrightnessAutoIcon from '@mui/icons-material/BrightnessAuto';
+import BuildIcon from '@mui/icons-material/Build';
+import SportsVolleyballIcon from '@mui/icons-material/SportsVolleyball';
+import CampaignIcon from '@mui/icons-material/Campaign';
+import PublicIcon from '@mui/icons-material/Public';
+import PublicOffIcon from '@mui/icons-material/PublicOff';
 
 const StyledMenu = styled((props: MenuProps) => (
 	<Menu
@@ -69,7 +55,7 @@ const StyledMenu = styled((props: MenuProps) => (
 	},
 }));
 
-export default function EventsDropDown( props: { updateEventList: Function, resultBackUp: TEvent[] } ) {
+export default function EventsDropDown( props: { updateEventList: Function } ) {
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
@@ -78,7 +64,12 @@ export default function EventsDropDown( props: { updateEventList: Function, resu
     };
     const handleClose = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(null);
-        props.updateEventList((event.target as HTMLInputElement).value, props.resultBackUp);
+        for (let i = 1; i <= 10; i++) {
+            if (JSON.stringify((event.target as HTMLInputElement).value) === JSON.stringify(i)) {
+                props.updateEventList((event.target as HTMLInputElement).value);
+            }
+            
+        }
 	};
 
 	return (
@@ -93,33 +84,58 @@ export default function EventsDropDown( props: { updateEventList: Function, resu
             onClick={handleClick}
             endIcon={<KeyboardArrowDownIcon />}
         >
-            Sort By
+            Sort Or Filter
         </Button>
         <StyledMenu
-                id="demo-customized-menu"
-                MenuListProps={{
+            id="demo-customized-menu"
+            MenuListProps={{
                 'aria-labelledby': 'demo-customized-button',
             }}
             anchorEl={anchorEl}
             open={open}
             onClose={handleClose}
         >
-        <MenuItem onClick={handleClose} value="1">
-            <EditIcon />
-            Edit
-        </MenuItem>
-        <MenuItem onClick={handleClose} value="2">
-            <FileCopyIcon />
-            Duplicate
-        </MenuItem>
-        <MenuItem onClick={handleClose} value="3">
-            <ArchiveIcon />
-            Archive
-        </MenuItem>
-        <MenuItem onClick={handleClose} value="4">
-            <MoreHorizIcon />
-            More
-        </MenuItem>
+            <MenuItem onClick={handleClose} value="1">
+                <CalendarMonthIcon />
+                Sort: Date Ascending
+            </MenuItem>
+            <MenuItem onClick={handleClose} value="2">
+                <CalendarMonthIcon />
+                Sort: Date Descending
+            </MenuItem>
+            <MenuItem onClick={handleClose} value="3">
+                <SortByAlphaIcon />
+                Sort: Alphabetical A-Z
+            </MenuItem>
+            <MenuItem onClick={handleClose} value="4">
+                <SortByAlphaIcon />
+                Sort: Alphabetical Z-A
+            </MenuItem>
+            <Divider sx={{ my: 0.5 }} />
+            <MenuItem onClick={handleClose} value="5">
+                <BrightnessAutoIcon />
+                Filter: All
+            </MenuItem>
+            <MenuItem onClick={handleClose} value="6">
+                <PublicIcon />
+                Filter: Public
+            </MenuItem>
+            <MenuItem onClick={handleClose} value="7">
+                <PublicOffIcon />
+                Filter: Private
+            </MenuItem>
+            <MenuItem onClick={handleClose} value="8">
+                <CampaignIcon />
+                Filter: Tech Talk
+            </MenuItem>
+            <MenuItem onClick={handleClose} value="9">
+                <BuildIcon />
+                Filter: Workshop
+            </MenuItem>
+            <MenuItem onClick={handleClose} value="10">
+                <SportsVolleyballIcon />
+                Filter: Activity
+            </MenuItem>
         </StyledMenu>
         </div>
 	);

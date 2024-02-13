@@ -21,29 +21,40 @@ export default function sortingAlg( inputList: TEvent[], sortBy: Number ) {
 
     var new_list: TEvent[] = [];
 
-    console.log(sortBy);
-    if (sortBy === 1 || sortBy === 2) {
 
+    if (sortBy === 1 || sortBy === 2) {
         while (inputList.length > 0) {
-            var largest_val = 0;
+            var largest_val1 = inputList[0].start_time;
             var largest_index = 0;
             for (let i = 0; i < inputList.length; i++) {
-                if (largest_val < inputList[i].start_time) {
-                    largest_val = inputList[i].start_time;
+                if (largest_val1 < inputList[i].start_time) {
+                    largest_val1 = inputList[i].start_time;
                     largest_index = i;
                 }
             }
             new_list.push(inputList[largest_index]);
             inputList.splice(largest_index, 1);
         }
+    } else if (sortBy === 3 || sortBy === 4) {
+        while (inputList.length > 0) {
+            var largest_val2 = inputList[0].name;
+            var largest_index = 0;
+            for (let i = 0; i < inputList.length; i++) {
+                if (largest_val2.localeCompare(inputList[i].name) === -1) {
+                    largest_val2 = inputList[i].name;
+                    largest_index = i;
+                }
+            }
+            new_list.push(inputList[largest_index]);
+            inputList.splice(largest_index, 1);
+        }
+    } else {
+        return new_list;
     }
 
-    console.log(new_list);
-    if (sortBy === 1) {
-        console.log("normal");
+    if (sortBy === 1 || sortBy === 4) {
         return new_list;
     } else {
-        console.log("reverse");
         return new_list.reverse();
     }
 }

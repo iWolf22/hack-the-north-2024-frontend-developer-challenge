@@ -1,6 +1,7 @@
 import React from 'react';
 import Events from './EventsCard';
 import EventsDropDown from './EventsDropDown';
+import ChipGenerator from './ChipGenerator';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -24,15 +25,18 @@ export type TEvent = {
     related_events: number[]; // a list ids corresponding to related events
 };
 
-export default function EventsPage( props: { eventList: TEvent[], updateEventList: Function, resultBackUp: TEvent[] } ) {
+export default function EventsPage( props: { eventList: TEvent[], updateEventList: Function, sorting: String, filter: String } ) {
 
 	return (
 		<div>
 			<h1 className="test">Events</h1>
 			<div style={{display: "flex", gap: "10px"}}>
 				<TextField fullWidth label="Events Search" />
-				<Button variant="contained">Search</Button>
-				<EventsDropDown updateEventList={props.updateEventList} resultBackUp={props.resultBackUp} />
+				<EventsDropDown updateEventList={props.updateEventList} />
+			</div>
+			<div style={{display: "flex", gap: "10px"}}>
+				<ChipGenerator chipType={props.sorting} />
+				<ChipGenerator chipType={props.filter} />
 			</div>
 			<Grid container spacing={{ xs: 2, md: 3 }} columns={{ sm: 4, md: 8, lg: 12 }}>
 				{props.eventList.map((event, index) => {

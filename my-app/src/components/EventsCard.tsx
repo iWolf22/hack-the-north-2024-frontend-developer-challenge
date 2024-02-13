@@ -1,13 +1,8 @@
 import React from 'react';
+import ChipGenerator from './ChipGenerator';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { CardActionArea } from '@mui/material';
-import Chip from '@mui/material/Chip';
-import BuildIcon from '@mui/icons-material/Build';
-import SportsVolleyballIcon from '@mui/icons-material/SportsVolleyball';
-import CampaignIcon from '@mui/icons-material/Campaign';
-import PublicIcon from '@mui/icons-material/Public';
-import PublicOffIcon from '@mui/icons-material/PublicOff';
 
 // The information for an event will look like so
 // Each event will belong to one of the following types
@@ -39,21 +34,6 @@ function timeConverter(time: number) {
     return (date.getHours() > 12 ? date.getHours() - 12 : date.getHours()) + ':' + (JSON.stringify(date.getMinutes()).length === 1 ? '0' + date.getMinutes() : date.getMinutes()) + ' ' + (date.getHours() >= 12 ? 'pm' : 'am');
 }
 
-function chipGenerator(chipType: String) {
-    if (chipType === 'workshop') {
-        return (<Chip icon={<BuildIcon />} label='Workshop' />);
-    } else if (chipType === 'activity') {
-        return (<Chip icon={<SportsVolleyballIcon />} label='Activity' />);
-    } else if (chipType === 'tech_talk') {
-        return (<Chip icon={<CampaignIcon />} label='Tech Talk' />);
-    } else if (chipType === 'public') {
-        return (<Chip icon={<PublicIcon />} label='Public' />);
-    } else {
-        return (<Chip icon={<PublicOffIcon />} label='Private' />);
-    }
-}
-
-
 export default function EventsCard( props: { eventInfo: TEvent} ) {
 
     var description = props.eventInfo.description ?? '';
@@ -70,7 +50,10 @@ export default function EventsCard( props: { eventInfo: TEvent} ) {
                     <span> - </span>
                     <span>{timeConverter(props.eventInfo.end_time)}</span>
                     <p>{description.length > 150 ? description.substring(0, 150) + '...' : description}</p>
-                    <span>{chipGenerator(props.eventInfo.event_type)} {chipGenerator(permission)}</span>
+                    <div style={{display: "flex", gap: "10px"}}>
+                        <ChipGenerator chipType={props.eventInfo.event_type} />
+                        <ChipGenerator chipType={permission} />		
+			        </div>
                 </CardContent>
             </CardActionArea>
         </Card>
