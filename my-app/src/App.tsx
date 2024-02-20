@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Navbar from "./Navbar";
-import EventsPage from './EventsPage';
+import Navbar from "./components/navbar/Navbar";
+import Home from "./components/home/Home";
+import EventsPage from './components/events/EventsPage';
 import axios from 'axios';
 import Container from '@mui/material/Container';
-import sortingAlg from './SortingAlg';
+import sortingAlg from './components/other/SortingAlg';
+import Login from './components/login/Login';
+import EventPage from './components/events/SingleEventPage';
+import Typography from '@mui/material/Typography';
+import Footer from './components/footer/Footer';
 
 // The information for an event will look like so
 // Each event will belong to one of the following types
@@ -31,6 +36,9 @@ export default function App() {
 	var [ sorting, setSorting ] = useState("Sort: Date Ascending");
 	var [ filter, setFilter ] = useState("Filter: All");
 	var [ search, setSearch ] = useState("");
+	var [ color, setColor ] = useState("dark");
+	var [ login, setLogin ] = useState(false);
+	var [ prevLogin, setPrevLogin ] = useState("null");
 
 	useEffect(() => {
 		axios.get("https://api.hackthenorth.com/v3/events")
@@ -54,15 +62,44 @@ export default function App() {
 
 	function updateSearch( newValue: string ) {
 		setSearch(newValue);
-		console.log(search);
+	}
+
+	function userLogin( username: string, password: string ) {
+		if (username === 'I <3' && password === "HackTheNorth") {
+			setLogin(true);
+			setPrevLogin("success");
+		} else {
+			setPrevLogin("fail");
+		}
+		console.log(login, prevLogin);
+	}
+
+	var htmlElement = document.getElementById("html-element");
+	if (htmlElement !== null) {
+		htmlElement.classList.add("dark-html");
+	}
+	function updateColor() {
+		if (color === "light") {
+			setColor("dark");
+			if (htmlElement !== null) {
+				htmlElement.classList.remove("light-html");
+				htmlElement.classList.add("dark-html");
+			}
+		} else {
+			setColor("light");
+			if (htmlElement !== null) {
+				htmlElement.classList.remove("dark-html");
+				htmlElement.classList.add("light-html");
+			}
+		}
 	}
 	
 	return (
-		<div>
+		<div id="page-container">
 			<Container maxWidth="lg">
-				<Navbar />
+				<Navbar color={color} updateColor={updateColor} />
 				<Routes>
-					<Route path="/" element={<div><h1>Hackathon Home Page</h1></div>}></Route>
+					<Route path="/" element={<Home color={color} />}></Route>
 					<Route path="/events" element={
 						<EventsPage
 							eventList={result}
@@ -70,11 +107,21 @@ export default function App() {
 							sorting={sorting}
 							search={search}
 							updateSearch={updateSearch}
+							color={color}
+							login={login}
 							filter={filter} />
 					}></Route>
-					<Route path="/login" element={<div><h1>Login</h1></div>}></Route>
+					<Route path="/login" element={<Login color={color} userLogin={userLogin} login={login} prevLogin={prevLogin} />}></Route>
+					{result.map((event, index) => {
+						return (
+							<Route path={"/" + event.name.replace(/\W/g, '')} key={index} element={<EventPage eventList={result} eventNumber={index} key={index} color={color} login={login} />}></Route>
+						);
+					})}
 				</Routes>
 			</Container>
+			<footer id="page-footer">
+				<Footer color={color} />
+			</footer>
 		</div>
 	);
 }

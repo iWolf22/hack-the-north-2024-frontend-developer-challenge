@@ -29,8 +29,23 @@ function searchFunction( eventList: TEvent[], search: string ) {
     return newList;
 }
 
-export default function FilterAndSearch( eventList: TEvent[], filter: string, search: string ) {
+function loginFilter( eventList: TEvent[], login: boolean ) {
+    var newList: TEvent[] = [];
+    for (let i = 0; i < eventList.length; i++) {
+        if (eventList[i].permission === 'public') {
+            newList.push(eventList[i]);
+        }
+    }
+    return newList;
+}
+
+export default function FilterAndSearch( eventList: TEvent[], filter: string, search: string, login: boolean ) {
     var filterList = [['Filter: Public', 'public'], ['Filter: Private', 'private'], ['Filter: Tech Talk', 'tech_talk'], ['Filter: Workshop', 'workshop'], ['Filter: Activity', 'activity']];
+    
+    if (login === false) {
+        eventList = loginFilter(eventList, login); 
+    }
+
     var newList: TEvent[] = [];
     if (filter === 'Filter: All') {
         return searchFunction(eventList, search);
