@@ -6,20 +6,20 @@ export default function NavbarButton( props: { color: string, name: string, link
 
 	return (
         <MenuItem
-        component={Link} to={props.link}
-        sx={{
-            py:'6px',
-            px: '12px',
-            borderRadius: '999px',
-            transition: "background 0.3s",
-            fontFamily: "JetBrains Mono, monospace",
-            '&:hover': {
-                backgroundColor: props.color === "light" ? '#d3dce7' : '#16283a'
-            },
-            color: props.color === "light" ? "black" : "white" 
-        }}
-        >
-        {props.name}
+            component={Link} to={props.link}
+            sx={{
+                py:'6px',
+                px: '12px',
+                borderRadius: '999px',
+                transition: "background 0.3s",
+                fontFamily: "JetBrains Mono, monospace",
+                '&:hover': {
+                    backgroundColor: props.color === "light" ? '#d3dce7' : '#16283a'
+                },
+                color: props.color === "light" ? "black" : "white" 
+            }}
+            >
+            {props.name}
         </MenuItem>
 	);
 }

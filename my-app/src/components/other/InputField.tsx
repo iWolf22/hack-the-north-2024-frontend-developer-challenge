@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function InputField( props: { handleChange: Function, color: string, title: string } ) {
+export default function InputField( props: { handleChange: Function, color: string, title: string, content: string } ) {
 
     return (
         <div className="form__group field">
@@ -11,7 +11,8 @@ export default function InputField( props: { handleChange: Function, color: stri
                 onChange={(e) => props.handleChange(e)}
                 placeholder={props.title}
                 style={{color: props.color === 'light' ? 'black' : 'white'}}
-            />
+                value={props.content}
+            />{props.content}
 			<label
                 onClick={() => {var input = document.getElementById(props.title + "-input-search"); if (input !== null) { input.focus()}}}
                 className="form__label"

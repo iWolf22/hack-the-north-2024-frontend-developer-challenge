@@ -32,13 +32,76 @@ export type TEvent = {
 
 export default function App() {
 
-	var [ result, setResult ] = useState< TEvent[] >([]);
-	var [ sorting, setSorting ] = useState("Sort: Date Ascending");
-	var [ filter, setFilter ] = useState("Filter: All");
-	var [ search, setSearch ] = useState("");
-	var [ color, setColor ] = useState("dark");
-	var [ login, setLogin ] = useState(false);
-	var [ prevLogin, setPrevLogin ] = useState("null");
+	var [ result, setResult ] = useState< TEvent[] >(getInitialResult);
+	var [ sorting, setSorting ] = useState< string >(getInitialSorting);
+	var [ filter, setFilter ] = useState< string >(getInitialFilter);
+	var [ search, setSearch ] = useState< string >(getInitialSearch);
+	var [ color, setColor ] = useState< string >(getInitialColor);
+	var [ login, setLogin ] = useState< boolean >(getInitialLogin);
+	var [ prevLogin, setPrevLogin ] = useState< string >(getInitialPrevLogin);
+
+	function getInitialResult(): TEvent[]  {
+		var data = window.localStorage.getItem('RESULT_REACT_STATE');
+		return data === null ? [] : JSON.parse(data);
+	}
+
+	function getInitialSorting(): string  {
+		var data = window.localStorage.getItem('SORTING_REACT_STATE');
+		return data === null ? 'Sort: Date Ascending' : JSON.parse(data);
+	}
+
+	function getInitialFilter(): string  {
+		var data = window.localStorage.getItem('FILTER_REACT_STATE');
+		return data === null ? 'Filter: All' : JSON.parse(data);
+	}
+
+	function getInitialSearch(): string  {
+		var data = window.localStorage.getItem('SEARCH_REACT_STATE');
+		return data === null ? '' : JSON.parse(data);
+	}
+
+	function getInitialColor(): string  {
+		var data = window.localStorage.getItem('COLOR_REACT_STATE');
+		return data === null ? 'dark' : JSON.parse(data);
+	}
+
+	function getInitialLogin(): boolean  {
+		var data = window.localStorage.getItem('LOGIN_REACT_STATE');
+		return data === null ? false : JSON.parse(data);
+	}
+
+	function getInitialPrevLogin(): string  {
+		var data = window.localStorage.getItem('PREVLOGIN_REACT_STATE');
+		return data === null ? 'null' : JSON.parse(data);
+	}
+
+	useEffect(() => {
+		window.localStorage.setItem('RESULT_REACT_STATE', JSON.stringify(result));
+	}, [result]);
+
+	useEffect(() => {
+		window.localStorage.setItem('SORTING_REACT_STATE', JSON.stringify(sorting));
+	}, [sorting]);
+
+	useEffect(() => {
+		window.localStorage.setItem('FILTER_REACT_STATE', JSON.stringify(filter));
+	}, [filter]);
+
+	useEffect(() => {
+		window.localStorage.setItem('SEARCH_REACT_STATE', JSON.stringify(search));
+	}, [search]);
+
+	useEffect(() => {
+		window.localStorage.setItem('COLOR_REACT_STATE', JSON.stringify(color));
+	}, [color]);
+
+	useEffect(() => {
+		window.localStorage.setItem('LOGIN_REACT_STATE', JSON.stringify(login));
+	}, [login]);
+
+	useEffect(() => {
+		window.localStorage.setItem('PREVLOGIN_REACT_STATE', JSON.stringify(prevLogin));
+	}, [prevLogin]);
 
 	useEffect(() => {
 		axios.get("https://api.hackthenorth.com/v3/events")
@@ -74,9 +137,18 @@ export default function App() {
 		console.log(login, prevLogin);
 	}
 
+	function userLogout() {
+		setLogin(false);
+		setPrevLogin("null");
+	}
+
 	var htmlElement = document.getElementById("html-element");
 	if (htmlElement !== null) {
-		htmlElement.classList.add("dark-html");
+		if (color === 'light') {
+			htmlElement.classList.add('light-html');
+		} else {
+			htmlElement.classList.add('dark-html');
+		}
 	}
 	function updateColor() {
 		if (color === "light") {
@@ -97,7 +169,7 @@ export default function App() {
 	return (
 		<div id="page-container">
 			<Container maxWidth="lg">
-				<Navbar color={color} updateColor={updateColor} />
+				<Navbar color={color} userLogout={userLogout} login={login} updateColor={updateColor} />
 				<Routes>
 					<Route path="/" element={<Home color={color} />}></Route>
 					<Route path="/events" element={

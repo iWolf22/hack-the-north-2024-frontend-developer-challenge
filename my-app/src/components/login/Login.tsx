@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import InputField from '../other/InputField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -16,15 +16,15 @@ const darkTheme = createTheme({
 
 export default function Login( props: { color: string, userLogin: Function, login: boolean, prevLogin: string }) {
 
-	var username = "";
-	var password = "";
+	var [username, setUsername] = useState('');
+	var [password, setPassword] = useState('');
 
 	function usernameChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-		username = event.currentTarget.value;
+		setUsername(event.currentTarget.value);
 	}
 
 	function passwordChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-		password = event.currentTarget.value;
+		setPassword(event.currentTarget.value);
 	}
 
 	function loginAlert() {
@@ -76,8 +76,8 @@ export default function Login( props: { color: string, userLogin: Function, logi
 							<br/>Temporary Password: "HackTheNorth"
 					</Typography>
 					{loginAlert()}
-					<InputField handleChange={usernameChange} color={props.color} title="Username" />
-					<InputField handleChange={passwordChange} color={props.color} title="Password" />
+					<InputField handleChange={usernameChange} color={props.color} content={username} title="Username" />
+					<InputField handleChange={passwordChange} color={props.color} content={password} title="Password" />
 					<Button
 						fullWidth
 						variant="contained"

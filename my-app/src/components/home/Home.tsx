@@ -39,11 +39,13 @@ export default function Home( props: { color: string }) {
 		setSelectedItemIndex(index);
 	};
 
+	console.log("HomeColor: " + props.color);
+
 	const selectedFeature = items[selectedItemIndex];
 
 	return (
 		<Container sx={{ py: 16 }}>
-			<ScrollToTop />
+		<ScrollToTop />
 		<Grid container spacing={6}>
 			<Grid item xs={12} md={6}>
 				<div>

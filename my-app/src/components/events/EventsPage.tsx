@@ -58,7 +58,7 @@ export default function EventsPage( props: { eventList: TEvent[], updateEventLis
 				</div>
 			</div>
 			<div style={{display: "flex", gap: "10px", marginBottom: '40px'}}>
-				<InputField handleChange={handleChange} color={props.color} title="Search for an Event" />
+				<InputField handleChange={handleChange} color={props.color} title="Search for an Event" content={props.search} />
 				<EventsDropDown updateEventList={props.updateEventList} color={props.color} />
 			</div>
 			<Grid container spacing={{ xs: 2, md: 3 }} columns={{ sm: 4, md: 8, lg: 12 }}>

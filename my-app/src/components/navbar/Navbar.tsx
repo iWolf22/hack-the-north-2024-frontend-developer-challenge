@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import NavbarButton from './NavbarButton';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -10,8 +10,14 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import { Link } from 'react-router-dom';
+import MenuItem from '@mui/material/MenuItem';
+import AboutMe from '../aboutme/AboutMe';
 
-export default function NavBar( props: { color: string, updateColor : Function } ) {
+export default function NavBar( props: { color: string, updateColor : Function, login: boolean, userLogout: Function } ) {
+
+    const [modelOpen, setModelOpen] = useState(false);
+    const modelHandleOpen = () => setModelOpen(true);
+    const modelHandleClose = () => setModelOpen(false);
 
 	return (
 		<nav>
@@ -72,7 +78,25 @@ export default function NavBar( props: { color: string, updateColor : Function }
 
                             <NavbarButton color={props.color} name="Home" link="/" />
                             <NavbarButton color={props.color} name="Events" link="/events" />
-                            <NavbarButton color={props.color} name="About Me" link="/login" />
+                            <MenuItem
+                                onClick={modelHandleOpen}
+                                sx={{
+                                    py:'6px',
+                                    px: '12px',
+                                    borderRadius: '999px',
+                                    transition: "background 0.3s",
+                                    fontFamily: "JetBrains Mono, monospace",
+                                    '&:hover': {
+                                        backgroundColor: props.color === "light" ? '#d3dce7' : '#16283a'
+                                    },
+                                    color: props.color === "light" ? "black" : "white" 
+                                }}
+                                >
+                                About Me
+                            </MenuItem>
+
+                            <AboutMe color={props.color} modelOpen={modelOpen} modelHandleClose={modelHandleClose} />
+
 
                         </Box>
                     </Box>
@@ -94,26 +118,45 @@ export default function NavBar( props: { color: string, updateColor : Function }
                         }}>
                         { props.color === "light" ? <LightModeIcon sx={{ width: "20px", height: '20px'}} /> : <DarkModeIcon sx={{ width: "20px"}} /> }
                     </IconButton>
-                    <Button
-                        color="primary"
-                        variant="text"
-                        size="small"
-                        component={Link}
-                        to={"/login"}
-                        sx={{ fontFamily: "JetBrains Mono, monospace", '&:hover': { backgroundColor: props.color === "light" ? '#d3dce7' : '#16283a'}, display: {xs: 'none', sm: 'initial'} }}
+                    { props.login === false ?
+                    <div style={{display: 'flex'}}>
+                        <div style={{paddingRight: '10px', paddingTop: '4px'}}>
+                            <Button
+                                color="primary"
+                                variant="text"
+                                size="small"
+                                component={Link}
+                                to={"/login"}
+                                sx={{ fontFamily: "JetBrains Mono, monospace", '&:hover': { backgroundColor: props.color === "light" ? '#d3dce7' : '#16283a'}, display: {xs: 'none', sm: 'initial'} }}
+                                >
+                                Sign in
+                            </Button>
+                        </div>
+                        <Button
+                            color="primary"
+                            variant="contained"
+                            size="small"
+                            component={Link}
+                            to={"/login"}
+                            sx={{ fontFamily: "JetBrains Mono, monospace", width: '78px'}}
                         >
-                        Sign in
-                    </Button>
-                    <Button
-                        color="primary"
-                        variant="contained"
-                        size="small"
-                        component={Link}
-                        to={"/login"}
-                        sx={{ fontFamily: "JetBrains Mono, monospace" }}
-                    >
-                        Sign up
-                    </Button>
+                            Sign up
+                        </Button>
+                    </div> :
+                    <div>
+                        <Button
+                            color="primary"
+                            variant="text"
+                            size="small"
+                            onClick={() => props.userLogout()}
+                            sx={{ fontFamily: "JetBrains Mono, monospace", '&:hover': { backgroundColor: props.color === "light" ? '#d3dce7' : '#16283a'} }}
+                        >
+                        Logout
+                        </Button>
+                    </div>
+                    }
+
+
                     </Box>
                 </Toolbar>
                 </Container>

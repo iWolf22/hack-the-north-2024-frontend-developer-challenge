@@ -11,6 +11,7 @@ import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import LinkOffIcon from '@mui/icons-material/LinkOff';
 import Alert from '@mui/material/Alert';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import ScrollToTop from '../other/ScrollToTop';
 
 // The information for an event will look like so
 // Each event will belong to one of the following types
@@ -59,6 +60,7 @@ export default function EventPage( props: { eventList: TEvent[], color: string, 
 
     return (
         <Container sx={{ py: 16 }}>
+            <ScrollToTop />
             { (props.login === true || props.eventList[props.eventNumber].permission === "public" ) ?
             <div>
                 <Typography component="h2" variant="h4" sx={{ fontFamily: "JetBrains Mono, monospace" }} color={props.color === 'light' ? 'black' : 'white'}>
