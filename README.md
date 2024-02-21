@@ -1,10 +1,10 @@
 # Overview
 
-A hackathon website created for the Hack the North 2024 Frontend Developer Challenge. The website was branded for a hypothetical hackathon, Hackathon Global Inc.™, and it's main purpose is to display events from a backend API.
+A hackathon website created for the Hack the North 2024 Frontend Developer Challenge. The website was branded for a hypothetical hackathon, Hackathon Global Inc.™, and its main purpose is to display events from a backend API.
 
 ## Preview of the App
 
-https://github.com/iWolf22/hack-the-north-2024-frontend-developer-challenge/assets/74108689/40babd84-b05b-45c2-873b-7d9fb7214e5c
+https://github.com/iWolf22/hack-the-north-2024-frontend-developer-challenge/assets/74108689/25f4bfd8-35c5-4fa8-b4df-72b82a19597e
 
 If you would like to visit the website itself, it is currently hosted locally at https://hack-the-north-2024-frontend-developer-challenge.vercel.app/ .
 
