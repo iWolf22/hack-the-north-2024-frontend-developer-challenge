@@ -4,10 +4,9 @@ A hackathon website created for the Hack the North 2024 Frontend Developer Chall
 
 ## Preview of the App
 
-
+https://github.com/iWolf22/hack-the-north-2024-frontend-developer-challenge/assets/74108689/40babd84-b05b-45c2-873b-7d9fb7214e5c
 
 If you would like to visit the website itself, it is currently hosted locally at https://hack-the-north-2024-frontend-developer-challenge.vercel.app/ .
-
 
 ## Technologies Used
 
@@ -17,7 +16,6 @@ If you would like to visit the website itself, it is currently hosted locally at
 4. TypeScript
 5. Axios
 6. MaterialUI
-
 
 ## Running the App
 
