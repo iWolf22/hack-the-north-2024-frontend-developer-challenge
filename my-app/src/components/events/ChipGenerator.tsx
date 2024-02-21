@@ -1,3 +1,8 @@
+/**
+ * @author Joshua Dierickse <jpcdieri@uwaterloo.ca>
+ */
+
+// Imports all dependencies
 import React from 'react';
 import Chip from '@mui/material/Chip';
 import BuildIcon from '@mui/icons-material/Build';
@@ -10,27 +15,38 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import BrightnessAutoIcon from '@mui/icons-material/BrightnessAuto';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
+/**
+ * Generates the custom chips
+ *
+ * @param chipType - the type of chip that needs to be returned
+ * @param color - the color theme, 'light' or 'dark'
+ * @return JSX Element
+ */
 export default function ChipGenerator( props: { chipType: string | any | 'private' | 'public' | 'workshop' | 'activity' | 'tech_talk', color: string } ) {
 
+    // Text color styling
     var textColor = props.color === 'light' ? '#616161' : '#9b9b9b';
 
+    // MaterialUI chip styling
     var chipStyles = {
         border: '2px ' + textColor + ' solid',
-        background: "transparent",
+        background: 'transparent',
         color: textColor,
-        fontFamily: "JetBrains Mono, monospace",
+        fontFamily: 'JetBrains Mono, monospace',
         opacity: '100%',
-        height: "25px",
+        height: '25px',
         fontSize: '10px',
         p: '0px',
         m: '0px'
     }
 
+    // Chip icon styling
     var iconStyles = {
         color: textColor,
         height: '15px',
     }
 
+    // List of the names of the chips and there corresponding <Chip /> component
     var chipList = [
         ['workshop', <Chip icon={<BuildIcon style={iconStyles} />} sx={chipStyles} label='Workshop' />],
         ['activity', <Chip icon={<SportsVolleyballIcon style={iconStyles} />} sx={chipStyles} label='Activity' />],
@@ -49,6 +65,7 @@ export default function ChipGenerator( props: { chipType: string | any | 'privat
         ['Filter: Activity', <Chip icon={<SportsVolleyballIcon style={iconStyles} />} sx={chipStyles} label='Filter: Activity' />]
     ];
 
+    // Searches for and returns the correct chip, otherwise returns an error chip
     for (let i = 0; i < chipList.length; i++) {
         if (props.chipType === chipList[i][0]) {
             return (

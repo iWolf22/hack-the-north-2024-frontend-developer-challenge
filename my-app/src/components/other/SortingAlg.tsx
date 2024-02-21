@@ -17,10 +17,18 @@ export type TEvent = {
     related_events: number[]; // a list ids corresponding to related events
 };
 
+/**
+ * Selection sort to sort eventList based on different parameters
+ *
+ * @param inputList - the eventList
+ * @param sortBy - a number that corresponds to different ways of sorting the eventList
+ * @return JSX Element
+ */
 export default function sortingAlg( inputList: TEvent[], sortBy: Number ) {
 
     var new_list: TEvent[] = [];
 
+    // If sortBy equals 1 or 2, then sort by date
     if (sortBy === 1 || sortBy === 2) {
         while (inputList.length > 0) {
             var largest_val1 = inputList[0].start_time;
@@ -34,6 +42,8 @@ export default function sortingAlg( inputList: TEvent[], sortBy: Number ) {
             new_list.push(inputList[largest_index]);
             inputList.splice(largest_index, 1);
         }
+    
+    // If sortBy equals 3 or 4, then sort alphabetically by title
     } else if (sortBy === 3 || sortBy === 4) {
         while (inputList.length > 0) {
             var largest_val2 = inputList[0].name;
@@ -51,6 +61,7 @@ export default function sortingAlg( inputList: TEvent[], sortBy: Number ) {
         return new_list;
     }
 
+    // Reverse the list if sortBy is 1 or 4 to get the reverse ordering
     if (sortBy === 1 || sortBy === 4) {
         return new_list;
     } else {

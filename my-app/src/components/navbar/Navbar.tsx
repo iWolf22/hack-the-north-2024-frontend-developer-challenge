@@ -1,4 +1,11 @@
+/**
+ * @author Joshua Dierickse <jpcdieri@uwaterloo.ca>
+ */
+
+// Imports all dependencies
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import AboutMe from '../aboutme/AboutMe';
 import NavbarButton from './NavbarButton';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -6,33 +13,48 @@ import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
+import MenuItem from '@mui/material/MenuItem';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import TerminalIcon from '@mui/icons-material/Terminal';
-import { Link } from 'react-router-dom';
-import MenuItem from '@mui/material/MenuItem';
-import AboutMe from '../aboutme/AboutMe';
 
+/**
+ * Generates the navbar
+ *
+ * @param color - the color theme, "light" or "dark"
+ * @param updateColor - function to update the website color
+ * @param login - boolean regarding if the user has logged in
+ * @param userLogout - function to log the user out
+ * @return JSX Element
+ */
 export default function NavBar( props: { color: string, updateColor : Function, login: boolean, userLogout: Function } ) {
 
-    const [modelOpen, setModelOpen] = useState(false);
-    const modelHandleOpen = () => setModelOpen(true);
-    const modelHandleClose = () => setModelOpen(false);
+    // Initialize state
+    var [modelOpen, setModelOpen] = useState(false);
+
+    // Functions to set "modelOpen" as open and closed
+    function modelHandleOpen() {
+        setModelOpen(true)
+    }
+    function modelHandleClose() {
+        setModelOpen(false)
+    }
 
 	return (
-		<nav>
-            <AppBar
-                position="fixed"
-                sx={{
-                    boxShadow: 0,
-                    bgcolor: 'transparent',
-                    backgroundImage: 'none',
-                    mt: 2,
-                }}
-            >
-                <Container maxWidth="lg">
+        <AppBar
+            position='fixed'
+            sx={{
+                boxShadow: 0,
+                bgcolor: 'transparent',
+                backgroundImage: 'none',
+                mt: 2,
+            }}
+        >
+            <Container maxWidth='lg'>
+
+                {/* Navbar template code */}
                 <Toolbar
-                    variant="regular"
+                    variant='regular'
                     sx={() => ({
                     display: 'flex',
                     alignItems: 'center',
@@ -61,43 +83,44 @@ export default function NavBar( props: { color: string, updateColor : Function, 
                             ml: '-18px',
                             px: 0,
                         }}
-                        >
+                    >
                         <Box sx={{ display: 'flex' }}>
 
-                            <IconButton disableRipple component={Link} to={"/"} style={{padding: '0px 10px 0px 20px', margin:'0px'}}
+                            {/* Hackathon Global Inc.™ logo */}
+                            <IconButton disableRipple component={Link} to={'/'} style={{padding: '0px 10px 0px 20px', margin:'0px'}}
                                 sx={{'&:hover': {
-                                    backgroundColor: "transparent"
+                                    backgroundColor: 'transparent'
                                 }, }}>
                                 <TerminalIcon sx={{
                                     width: '30px',
                                     height: 'auto',
                                     cursor: 'pointer',
-                                    color: props.color === "light" ? "black" : "white"
+                                    color: props.color === 'light' ? 'black' : 'white'
                                 }}/>
                             </IconButton>
 
-                            <NavbarButton color={props.color} name="Home" link="/" />
-                            <NavbarButton color={props.color} name="Events" link="/events" />
+                            {/* Navbar buttons */}
+                            <NavbarButton color={props.color} name='Home' link='/' />
+                            <NavbarButton color={props.color} name='Events' link='/events' />
                             <MenuItem
                                 onClick={modelHandleOpen}
                                 sx={{
                                     py:'6px',
                                     px: '12px',
                                     borderRadius: '999px',
-                                    transition: "background 0.3s",
-                                    fontFamily: "JetBrains Mono, monospace",
+                                    transition: 'background 0.3s',
+                                    fontFamily: 'JetBrains Mono, monospace',
                                     '&:hover': {
-                                        backgroundColor: props.color === "light" ? '#d3dce7' : '#16283a'
+                                        backgroundColor: props.color === 'light' ? '#d3dce7' : '#16283a'
                                     },
-                                    color: props.color === "light" ? "black" : "white" 
+                                    color: props.color === 'light' ? 'black' : 'white' 
                                 }}
-                                >
+                            >
                                 About Me
                             </MenuItem>
 
+                            {/* AboutMe Modal */}
                             <AboutMe color={props.color} modelOpen={modelOpen} modelHandleClose={modelHandleClose} />
-
-
                         </Box>
                     </Box>
                     <Box
@@ -107,60 +130,62 @@ export default function NavBar( props: { color: string, updateColor : Function, 
                         alignItems: 'center',
                     }}
                     >
+
+                    {/* Navbar sun/moon button to change color themes */}
                     <IconButton onClick={() => props.updateColor()}
                         sx={{
-                            color: props.color === "light" ? "black" : "white",
-                            height: "30px",
-                            width: "30px",
+                            color: props.color === 'light' ? 'black' : 'white',
+                            height: '30px',
+                            width: '30px',
                             '&:hover': {
-                                backgroundColor: props.color === "light" ? '#d3dce7' : '#16283a'
+                                backgroundColor: props.color === 'light' ? '#d3dce7' : '#16283a'
                             }
                         }}>
-                        { props.color === "light" ? <LightModeIcon sx={{ width: "20px", height: '20px'}} /> : <DarkModeIcon sx={{ width: "20px"}} /> }
+                        { props.color === 'light' ? <LightModeIcon sx={{ width: '20px', height: '20px'}} /> : <DarkModeIcon sx={{ width: '20px'}} /> }
                     </IconButton>
+
+                    {/* If you haven't logged in, display sign in/sign up buttons */}
                     { props.login === false ?
                     <div style={{display: 'flex'}}>
                         <div style={{paddingRight: '10px', paddingTop: '4px'}}>
                             <Button
-                                color="primary"
-                                variant="text"
-                                size="small"
+                                color='primary'
+                                variant='text'
+                                size='small'
                                 component={Link}
-                                to={"/login"}
-                                sx={{ fontFamily: "JetBrains Mono, monospace", '&:hover': { backgroundColor: props.color === "light" ? '#d3dce7' : '#16283a'}, display: {xs: 'none', sm: 'initial'} }}
+                                to={'/login'}
+                                sx={{ fontFamily: 'JetBrains Mono, monospace', '&:hover': { backgroundColor: props.color === 'light' ? '#d3dce7' : '#16283a'}, display: {xs: 'none', sm: 'initial'} }}
                                 >
                                 Sign in
                             </Button>
                         </div>
                         <Button
-                            color="primary"
-                            variant="contained"
-                            size="small"
+                            color='primary'
+                            variant='contained'
+                            size='small'
                             component={Link}
-                            to={"/login"}
-                            sx={{ fontFamily: "JetBrains Mono, monospace", width: '78px'}}
+                            to={'/login'}
+                            sx={{ fontFamily: 'JetBrains Mono, monospace', width: '78px'}}
                         >
                             Sign up
                         </Button>
                     </div> :
                     <div>
+                        {/* If you have signed in, display the logout button */}
                         <Button
-                            color="primary"
-                            variant="text"
-                            size="small"
+                            color='primary'
+                            variant='text'
+                            size='small'
                             onClick={() => props.userLogout()}
-                            sx={{ fontFamily: "JetBrains Mono, monospace", '&:hover': { backgroundColor: props.color === "light" ? '#d3dce7' : '#16283a'} }}
+                            sx={{ fontFamily: 'JetBrains Mono, monospace', '&:hover': { backgroundColor: props.color === 'light' ? '#d3dce7' : '#16283a'} }}
                         >
                         Logout
                         </Button>
                     </div>
                     }
-
-
                     </Box>
                 </Toolbar>
-                </Container>
-            </AppBar>
-		</nav>
+            </Container>
+        </AppBar>
 	);
 }

@@ -1,3 +1,8 @@
+/**
+ * @author Joshua Dierickse <jpcdieri@uwaterloo.ca>
+ */
+
+/* Dark HTML background */
 .dark-html {
 	background-color: #090e10;
 	background-image: linear-gradient(to bottom, #02284e, transparent);
@@ -5,6 +10,7 @@
 	background-size: 100% 300px;
 }
 
+/* Light HTML background */
 .light-html {
 	background-color: #ffffff;
 	background-image: linear-gradient(to bottom, #cee5fd, transparent);
@@ -12,6 +18,8 @@
 	background-size: 100% 300px;
 }
 
+/* .form is styling for <InputField /> */
+/* Container styling */
 .form__group {
 	position: relative;
 	padding: 15px 0 0;
@@ -19,6 +27,7 @@
 	width: 100%;
 }
 
+/* <input /> styling */
 .form__field {
 	font-family: JetBrains Mono, monospace;
 	width: 100%;
@@ -29,11 +38,9 @@
 	padding: 7px 0;
 	background: transparent;
 	transition: border-color 0.2s;
-
 	&::placeholder {
 		color: transparent;
 	}
-
 	&:placeholder-shown ~ .form__label {
 		font-size: 1.3rem;
 		cursor: text;
@@ -41,16 +48,7 @@
 	}
 }
 
-.form__label {
-	font-family: JetBrains Mono, monospace;
-	position: absolute;
-	top: 0;
-	display: block;
-	transition: 0.2s;
-	font-size: 1rem;
-	user-select: none;
-}
-
+/* <input /> styling when the <InputField /> is focused */
 .form__field:focus {
 	~ .form__label {
 		position: absolute;
@@ -68,16 +66,30 @@
 	border-image-slice: 1;
 }
 
-/* reset input */
+/* <label /> styling */
+.form__label {
+	font-family: JetBrains Mono, monospace;
+	position: absolute;
+	top: 0;
+	display: block;
+	transition: 0.2s;
+	font-size: 1rem;
+	user-select: none;
+}
+
+
+/* When the user clicks away from the <InputField /> */
 .form__field{
 	&:required,&:invalid { box-shadow:none; }
 }
 
+/* Styling to ensure the footer stays at the bottom when the HTML content doesn't fully fill the screen */
 #page-container {
 	position: relative;
 	min-height: 97vh;
 }
 
+/* Footer styling */
 #page-footer {
 	position: absolute;
 	bottom: 0;

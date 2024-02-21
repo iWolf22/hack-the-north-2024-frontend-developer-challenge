@@ -1,4 +1,9 @@
-import React from 'react';
+/**
+ * @author Joshua Dierickse <jpcdieri@uwaterloo.ca>
+ */
+
+// Imports all dependencies
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import { styled, alpha } from '@mui/material/styles';
 import Menu, { MenuProps } from '@mui/material/Menu';
@@ -14,6 +19,7 @@ import CampaignIcon from '@mui/icons-material/Campaign';
 import PublicIcon from '@mui/icons-material/Public';
 import PublicOffIcon from '@mui/icons-material/PublicOff';
 
+// Styling from template Material UI drop down menu
 const StyledMenu = styled((props: MenuProps) => (
 	<Menu
 		elevation={0}
@@ -55,23 +61,35 @@ const StyledMenu = styled((props: MenuProps) => (
 	},
 }));
 
+/**
+ * Generates the drop down menu when users click on "SORT OR FILTER"
+ *
+ * @param updateEventList - function to update the "filter" or "sorting" states
+ * @param color - the color theme, "light" or "dark"
+ * @return JSX Element
+ */
 export default function EventsDropDown( props: { updateEventList: Function, color: string } ) {
 
-	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-	const open = Boolean(anchorEl);
-	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    // React state used to dictate whether the menu is opened or closed
+	var [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+	var open = Boolean(anchorEl);
+
+    // Opens the menu
+	function handleClick(event: React.MouseEvent<HTMLElement>) {
         setAnchorEl(event.currentTarget);
-    };
-    const handleClose = (event: React.MouseEvent<HTMLElement>) => {
+    }
+
+    // Closes the menu and checks if the was as a result of a button press, if so, process it
+    function handleClose(event: React.MouseEvent<HTMLElement>) {
         setAnchorEl(null);
         for (let i = 1; i <= 10; i++) {
             if (JSON.stringify((event.target as HTMLInputElement).value) === JSON.stringify(i)) {
                 props.updateEventList((event.target as HTMLInputElement).value);
             }
-            
         }
-	};
+	}
 
+    // Menu item styling
     var menuItemStyle = {
         fontFamily: "JetBrains Mono, monospace",
         color: props.color === 'light' ? 'black' : 'white',
@@ -81,82 +99,89 @@ export default function EventsDropDown( props: { updateEventList: Function, colo
         transition: 'background 0.2s'
     }
 
+    // Menu icon styling
     var iconStyle = {
         color: props.color === 'light' ? '#616161' : '#9b9b9b'
     }
 
 	return (
-	<div>
-        <Button
-            id="demo-customized-button"
-            aria-controls={open ? 'demo-customized-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            variant="contained"
-            disableElevation
-            onClick={handleClick}
-            sx={{ fontFamily: "JetBrains Mono, monospace" }}
-            endIcon={<KeyboardArrowDownIcon />}
-        >
-            Sort Or Filter
-        </Button>
-        <StyledMenu
-            id="demo-customized-menu"
-            MenuListProps={{
-                'aria-labelledby': 'demo-customized-button',
-            }}
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            sx={{
-                "& .MuiPaper-root": {
-                    backgroundColor: props.color === 'light' ? '#f6f6f6' : '#282c34'
-                },
-            }}
-            disableScrollLock={true}
-        >
-            <MenuItem onClick={handleClose} value="1" sx={menuItemStyle}>
-                <CalendarMonthIcon style={iconStyle} />
-                Sort: Date Ascending
-            </MenuItem>
-            <MenuItem onClick={handleClose} value="2" sx={menuItemStyle}>
-                <CalendarMonthIcon style={iconStyle} />
-                Sort: Date Descending
-            </MenuItem>
-            <MenuItem onClick={handleClose} value="3" sx={menuItemStyle}>
-                <SortByAlphaIcon style={iconStyle} />
-                Sort: Alphabetical A-Z
-            </MenuItem>
-            <MenuItem onClick={handleClose} value="4" sx={menuItemStyle}>
-                <SortByAlphaIcon style={iconStyle} />
-                Sort: Alphabetical Z-A
-            </MenuItem>
-            <Divider sx={{ my: 0.5 }} style={{background: props.color === 'light' ? '#616161' : '#9b9b9b'}} />
-            <MenuItem onClick={handleClose} value="5" sx={menuItemStyle}>
-                <BrightnessAutoIcon style={iconStyle} />
-                Filter: All
-            </MenuItem>
-            <MenuItem onClick={handleClose} value="6" sx={menuItemStyle}>
-                <PublicIcon style={iconStyle} />
-                Filter: Public
-            </MenuItem>
-            <MenuItem onClick={handleClose} value="7" sx={menuItemStyle}>
-                <PublicOffIcon style={iconStyle} />
-                Filter: Private
-            </MenuItem>
-            <MenuItem onClick={handleClose} value="8" sx={menuItemStyle}>
-                <CampaignIcon style={iconStyle} />
-                Filter: Tech Talk
-            </MenuItem>
-            <MenuItem onClick={handleClose} value="9" sx={menuItemStyle}>
-                <BuildIcon style={iconStyle} />
-                Filter: Workshop
-            </MenuItem>
-            <MenuItem onClick={handleClose} value="10" sx={menuItemStyle}>
-                <SportsVolleyballIcon style={iconStyle} />
-                Filter: Activity
-            </MenuItem>
-        </StyledMenu>
+        <div>
+
+            {/* SORT OR FILTER button */}
+            <Button
+                id="demo-customized-button"
+                aria-controls={open ? 'demo-customized-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                variant="contained"
+                disableElevation
+                onClick={handleClick}
+                sx={{ fontFamily: "JetBrains Mono, monospace" }}
+                endIcon={<KeyboardArrowDownIcon />}
+            >
+                Sort Or Filter
+            </Button>
+
+            {/* The drop down menu */}
+            <StyledMenu
+                id="demo-customized-menu"
+                MenuListProps={{
+                    'aria-labelledby': 'demo-customized-button',
+                }}
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                sx={{
+                    "& .MuiPaper-root": {
+                        backgroundColor: props.color === 'light' ? '#f6f6f6' : '#282c34'
+                    },
+                }}
+                disableScrollLock={true}
+            >
+
+                {/* The drop down menu items */}
+                <MenuItem onClick={handleClose} value="1" sx={menuItemStyle}>
+                    <CalendarMonthIcon style={iconStyle} />
+                    Sort: Date Ascending
+                </MenuItem>
+                <MenuItem onClick={handleClose} value="2" sx={menuItemStyle}>
+                    <CalendarMonthIcon style={iconStyle} />
+                    Sort: Date Descending
+                </MenuItem>
+                <MenuItem onClick={handleClose} value="3" sx={menuItemStyle}>
+                    <SortByAlphaIcon style={iconStyle} />
+                    Sort: Alphabetical A-Z
+                </MenuItem>
+                <MenuItem onClick={handleClose} value="4" sx={menuItemStyle}>
+                    <SortByAlphaIcon style={iconStyle} />
+                    Sort: Alphabetical Z-A
+                </MenuItem>
+                <Divider sx={{ my: 0.5 }} style={{background: props.color === 'light' ? '#616161' : '#9b9b9b'}} />
+                <MenuItem onClick={handleClose} value="5" sx={menuItemStyle}>
+                    <BrightnessAutoIcon style={iconStyle} />
+                    Filter: All
+                </MenuItem>
+                <MenuItem onClick={handleClose} value="6" sx={menuItemStyle}>
+                    <PublicIcon style={iconStyle} />
+                    Filter: Public
+                </MenuItem>
+                <MenuItem onClick={handleClose} value="7" sx={menuItemStyle}>
+                    <PublicOffIcon style={iconStyle} />
+                    Filter: Private
+                </MenuItem>
+                <MenuItem onClick={handleClose} value="8" sx={menuItemStyle}>
+                    <CampaignIcon style={iconStyle} />
+                    Filter: Tech Talk
+                </MenuItem>
+                <MenuItem onClick={handleClose} value="9" sx={menuItemStyle}>
+                    <BuildIcon style={iconStyle} />
+                    Filter: Workshop
+                </MenuItem>
+                <MenuItem onClick={handleClose} value="10" sx={menuItemStyle}>
+                    <SportsVolleyballIcon style={iconStyle} />
+                    Filter: Activity
+                </MenuItem>
+            </StyledMenu>
         </div>
 	);
 }
