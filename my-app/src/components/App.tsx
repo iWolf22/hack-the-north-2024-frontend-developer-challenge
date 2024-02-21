@@ -4,7 +4,7 @@
 
 // Imports all dependencies
 import React, { useState, useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from './navbar/Navbar';
 import Home from './home/Home';
@@ -248,6 +248,9 @@ export default function App() {
 							</Route>
 						);
 					})}
+
+					{/* If the user has gone to a non-existent page, redirect them to the home page */}
+					<Route path="*" element={<Navigate to="/" replace />} />
 				</Routes>
 			</Container>
 
