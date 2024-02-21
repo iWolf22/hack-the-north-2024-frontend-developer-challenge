@@ -27,7 +27,7 @@ export default function InputField( props: { handleChange: Function, color: stri
                 placeholder={props.title}
                 style={{color: props.color === 'light' ? 'black' : 'white'}}
                 value={props.content}
-            />{props.content}
+            />
 
             {/* The label on top of the text area */}
 			<label
